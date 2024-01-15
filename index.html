@@ -17,6 +17,7 @@
 <div class="navigation">
     <button onclick="firstPage()">First</button>
     <button onclick="previousPage()">Previous</button>
+    <button onclick="randomComic()">Random</button>
     <button onclick="nextPage()">Next</button>
     <button onclick="lastPage()">Last</button>
 </div>
@@ -68,6 +69,11 @@
             currentPageIndex--;
             updateComic();
         }
+    }
+
+    function randomComic() {
+        currentPageIndex = Math.floor(Math.random() * (dayDiff + 1));
+        updateComic();
     }
 
     // Initialize with the correct comic based on URL or the most recent comic
