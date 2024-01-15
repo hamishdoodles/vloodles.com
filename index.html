@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Webcomic Navigation</title>
+    <style>
+        /* Add your CSS styles here */
+        .navigation { text-align: center; margin-top: 20px; }
+        .comic-image { width: 100%; max-width: 600px; display: block; margin: 0 auto; }
+    </style>
+</head>
+<body>
+
+<div id="comic">
+    <img src="" alt="Comic Page" class="comic-image" />
+</div>
+
+<div class="navigation">
+    <button onclick="firstPage()">First</button>
+    <button onclick="previousPage()">Previous</button>
+    <button onclick="nextPage()">Next</button>
+    <button onclick="lastPage()">Last</button>
+</div>
+
+<script>
+    // Calculate the index of the most recent comic
+    var startDate = new Date('2024-01-01');
+    var currentDate = new Date();
+    var timeDiff = currentDate - startDate;
+    var dayDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+    var currentPageIndex = getPageIndexFromURL() || dayDiff; // Get page index from URL or use the latest comic
+
+    function updateComic() {
+        var imgElement = document.querySelector('#comic img');
+        var paddedIndex = currentPageIndex.toString().padStart(5, '0'); // 5-digit format
+        var imagePath = `comic/${paddedIndex}.png`;
+        imgElement.src = imagePath;
+
+        // Change URL to include the comic number as a query parameter
+        window.history.pushState({}, '', `?comic=${currentPageIndex}`);
+    }
+
+    function getPageIndexFromURL() {
+        var queryParams = new URLSearchParams(window.location.search);
+        var comicNumber = queryParams.get('comic');
+        return comicNumber ? parseInt(comicNumber) : null;
+    }
+
+    function firstPage() {
+        currentPageIndex = 0;
+        updateComic();
+    }
+
+    function lastPage() {
+        currentPageIndex = dayDiff; // Go to the latest comic
+        updateComic();
+    }
+
+    function nextPage() {
+        if (currentPageIndex < dayDiff) {
+            currentPageIndex++;
+            updateComic();
+        }
+    }
+
+    function previousPage() {
+        if (currentPageIndex > 0) {
+            currentPageIndex--;
+            updateComic();
+        }
+    }
+
+    // Initialize with the correct comic based on URL or the most recent comic
+    updateComic();
+
+</script>
+
+</body>
+</html>
