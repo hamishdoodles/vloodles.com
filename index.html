@@ -29,7 +29,8 @@
     var timeDiff = currentDate - startDate;
     var dayDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
 
-    var currentPageIndex = getPageIndexFromURL() || dayDiff; // Get page index from URL or use the latest comic
+    // var currentPageIndex = getPageIndexFromURL() || dayDiff; // Get page index from URL or use the latest comic
+    var currentPageIndex = 0;
 
     function updateComic() {
         var imgElement = document.querySelector('#comic img');
